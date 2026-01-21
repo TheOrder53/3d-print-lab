@@ -60,11 +60,10 @@ export default function GirisPage() {
     setLoading(true)
     try {
       await loginWithGoogle()
-      router.push('/')
+      // Redirect yöntemi kullanıldığı için sayfa otomatik yönlendirilecek
     } catch (err: any) {
       console.error(err)
       setError('Google ile giriş yapılamadı')
-    } finally {
       setLoading(false)
     }
   }
