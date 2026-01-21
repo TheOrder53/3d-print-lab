@@ -1084,7 +1084,7 @@ function ContactSection() {
           <div className="glass-card p-4 text-center">
             <Mail className="w-6 h-6 text-neon-blue mx-auto mb-2" />
             <div className="text-white font-semibold text-sm">E-posta</div>
-            <div className="text-gray-400 text-xs">info@3dprintlab.com.tr</div>
+            <div className="text-gray-400 text-xs">3dprintlab.tr@gmail.com</div>
           </div>
           <div className="glass-card p-4 text-center">
             <Phone className="w-6 h-6 text-neon-purple mx-auto mb-2" />
