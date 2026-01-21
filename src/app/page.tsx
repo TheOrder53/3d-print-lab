@@ -1080,19 +1080,14 @@ function ContactSection() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <div className="grid md:grid-cols-2 gap-4 mb-8 max-w-md mx-auto">
           <div className="glass-card p-4 text-center">
             <Mail className="w-6 h-6 text-neon-blue mx-auto mb-2" />
             <div className="text-white font-semibold text-sm">E-posta</div>
             <div className="text-gray-400 text-xs">3dprintlab.tr@gmail.com</div>
           </div>
           <div className="glass-card p-4 text-center">
-            <Phone className="w-6 h-6 text-neon-purple mx-auto mb-2" />
-            <div className="text-white font-semibold text-sm">Telefon</div>
-            <div className="text-gray-400 text-xs">+90 555 123 4567</div>
-          </div>
-          <div className="glass-card p-4 text-center">
-            <MapPin className="w-6 h-6 text-neon-orange mx-auto mb-2" />
+            <MapPin className="w-6 h-6 text-neon-purple mx-auto mb-2" />
             <div className="text-white font-semibold text-sm">Adres</div>
             <div className="text-gray-400 text-xs">İstanbul, Türkiye</div>
           </div>
