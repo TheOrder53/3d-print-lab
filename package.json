@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/three": "^0.182.0",
+    "firebase": "^12.8.0",
     "lucide-react": "^0.303.0",
     "next": "14.0.4",
     "react": "18.2.0",

@@ -2,11 +2,14 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import * as THREE from 'three'
+import { useAuth } from '@/context/AuthContext'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
+import Link from 'next/link'
 import { 
   Upload, 
   Printer,
   Mail,
-  Phone,
   MapPin,
   Layers,
   Trash2,
@@ -24,7 +27,9 @@ import {
   RotateCcw,
   ZoomIn,
   ZoomOut,
-  Move3D
+  Move3D,
+  User,
+  LogIn
 } from 'lucide-react'
 
 // ==================== VERİLER ====================
@@ -401,6 +406,8 @@ function ModelViewer({
 // ==================== BİLEŞENLER ====================
 
 function Navbar() {
+  const { user, loading } = useAuth()
+  
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-dark-900/90 backdrop-blur-xl border-b border-dark-700/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -419,9 +426,25 @@ function Navbar() {
             <a href="#contact" className="text-gray-300 hover:text-neon-blue transition-colors">İletişim</a>
           </div>
           
-          <a href="#order" className="btn-primary py-2 px-4 text-xs">
-            Hemen Başla
-          </a>
+          <div className="flex items-center gap-3">
+            {!loading && (
+              user ? (
+                <Link href="/profil" className="flex items-center gap-2 px-4 py-2 bg-dark-700 hover:bg-dark-600 text-white rounded-xl transition-colors">
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt="" className="w-6 h-6 rounded-full" />
+                  ) : (
+                    <User className="w-5 h-5" />
+                  )}
+                  <span className="hidden sm:inline text-sm">{user.displayName?.split(' ')[0] || 'Profil'}</span>
+                </Link>
+              ) : (
+                <Link href="/giris" className="flex items-center gap-2 px-4 py-2 bg-neon-blue hover:bg-neon-blue/80 text-dark-900 font-semibold rounded-xl transition-colors">
+                  <LogIn className="w-5 h-5" />
+                  <span className="hidden sm:inline text-sm">Giriş Yap</span>
+                </Link>
+              )
+            )}
+          </div>
         </div>
       </div>
     </nav>
@@ -975,21 +998,7 @@ function OrderSection() {
                     </div>
                   ))}
 
-                  <div className="border-t border-dark-600 pt-3 mt-3">
-                    <div className="flex justify-between items-center mb-1 text-sm">
-                      <span className="text-gray-400">Toplam Süre</span>
-                      <span className="text-white font-semibold">{totalTime} saat</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-gray-400">Toplam</span>
-                      <span className="text-2xl font-display font-bold gradient-text">₺{totalPrice}</span>
-                    </div>
-
-                    <button className="w-full btn-primary flex items-center justify-center gap-2">
-                      <Check className="w-5 h-5" />
-                      Siparişi Tamamla
-                    </button>
-                  </div>
+                  <CartCheckout orders={orders} totalPrice={totalPrice} totalTime={totalTime} onOrderComplete={() => setOrders([])} />
                 </div>
               )}
             </div>
@@ -997,6 +1006,114 @@ function OrderSection() {
         </div>
       </div>
     </section>
+  )
+}
+
+function CartCheckout({ 
+  orders, 
+  totalPrice, 
+  totalTime,
+  onOrderComplete 
+}: { 
+  orders: OrderItem[]
+  totalPrice: number
+  totalTime: number
+  onOrderComplete: () => void
+}) {
+  const { user } = useAuth()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [orderSuccess, setOrderSuccess] = useState(false)
+
+  const handleCheckout = async () => {
+    if (!user) {
+      window.location.href = '/giris'
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await addDoc(collection(db, 'orders'), {
+        userId: user.uid,
+        userEmail: user.email,
+        userName: user.displayName,
+        items: orders.map(order => ({
+          fileName: order.fileName,
+          filament: order.filament,
+          color: order.color,
+          colorCode: order.colorCode,
+          quality: order.quality,
+          infill: order.infill,
+          scale: order.scale,
+          quantity: order.quantity,
+          price: order.estimatedPrice,
+          dimensions: order.dimensions,
+        })),
+        totalPrice: totalPrice,
+        totalTime: totalTime,
+        status: 'pending',
+        createdAt: serverTimestamp(),
+      })
+      
+      setOrderSuccess(true)
+      setTimeout(() => {
+        setOrderSuccess(false)
+        onOrderComplete()
+      }, 3000)
+    } catch (error) {
+      console.error('Sipariş hatası:', error)
+      alert('Sipariş oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (orderSuccess) {
+    return (
+      <div className="border-t border-dark-600 pt-3 mt-3 text-center">
+        <div className="w-16 h-16 bg-neon-green/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <Check className="w-8 h-8 text-neon-green" />
+        </div>
+        <h3 className="text-lg font-bold text-white mb-1">Sipariş Alındı!</h3>
+        <p className="text-gray-400 text-sm">Siparişinizi profil sayfanızdan takip edebilirsiniz.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="border-t border-dark-600 pt-3 mt-3">
+      <div className="flex justify-between items-center mb-1 text-sm">
+        <span className="text-gray-400">Toplam Süre</span>
+        <span className="text-white font-semibold">{totalTime} saat</span>
+      </div>
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-gray-400">Toplam</span>
+        <span className="text-2xl font-display font-bold gradient-text">₺{totalPrice}</span>
+      </div>
+
+      <button 
+        onClick={handleCheckout}
+        disabled={isSubmitting}
+        className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50"
+      >
+        {isSubmitting ? (
+          <>
+            <div className="w-5 h-5 border-2 border-dark-900/30 border-t-dark-900 rounded-full animate-spin" />
+            İşleniyor...
+          </>
+        ) : user ? (
+          <>
+            <Check className="w-5 h-5" />
+            Siparişi Tamamla
+          </>
+        ) : (
+          <>
+            <LogIn className="w-5 h-5" />
+            Giriş Yap & Sipariş Ver
+          </>
+        )}
+      </button>
+    </div>
   )
 }
 
