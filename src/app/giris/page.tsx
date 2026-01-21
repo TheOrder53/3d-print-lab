@@ -59,11 +59,25 @@ export default function GirisPage() {
     setError('')
     setLoading(true)
     try {
-      await loginWithGoogle()
-      // Redirect yöntemi kullanıldığı için sayfa otomatik yönlendirilecek
+      console.log('Google login başlıyor...')
+      const result = await loginWithGoogle()
+      console.log('Google login sonucu:', result)
+      console.log('Kullanıcı:', result?.user)
+      router.push('/')
     } catch (err: any) {
-      console.error(err)
-      setError('Google ile giriş yapılamadı')
+      console.error('Google Login Error:', err)
+      console.error('Error code:', err.code)
+      console.error('Error message:', err.message)
+      if (err.code === 'auth/popup-closed-by-user') {
+        setError('Giriş penceresi kapatıldı. Tekrar deneyin.')
+      } else if (err.code === 'auth/popup-blocked') {
+        setError('Popup engellendi. Lütfen tarayıcınızda popup izni verin.')
+      } else if (err.code === 'auth/cancelled-popup-request') {
+        setError('İşlem iptal edildi. Tekrar deneyin.')
+      } else {
+        setError(`Google ile giriş yapılamadı: ${err.message || err.code}`)
+      }
+    } finally {
       setLoading(false)
     }
   }
