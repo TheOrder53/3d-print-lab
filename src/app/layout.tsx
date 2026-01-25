@@ -16,8 +16,8 @@ const orbitron = Orbitron({
 })
 
 export const metadata: Metadata = {
-  title: '3D Print Lab | 3D Baskı & Yazıcı Satış',
-  description: 'Profesyonel 3D baskı hizmetleri ve 3D yazıcı satışı. Hayallerinizi katmana dönüştürüyoruz.',
+  title: '3DMATBAA | 3D Baskı Hizmetleri',
+  description: 'Profesyonel 3D baskı hizmetleri. Hayallerinizi katmana dönüştürüyoruz.',
 }
 
 export default function RootLayout({

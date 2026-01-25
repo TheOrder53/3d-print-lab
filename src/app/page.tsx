@@ -414,9 +414,16 @@ function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-neon-blue to-neon-purple rounded-xl flex items-center justify-center">
-              <Printer className="w-6 h-6 text-white" />
+              <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="14" width="18" height="7" rx="1" />
+                <rect x="6" y="17" width="3" height="2" fill="currentColor" />
+                <path d="M7 14V4a1 1 0 011-1h8a1 1 0 011 1v10" />
+                <path d="M10 8h4" />
+                <path d="M12 6v4" />
+                <circle cx="12" cy="11" r="1.5" fill="currentColor" />
+              </svg>
             </div>
-            <span className="text-xl font-display font-bold gradient-text">3D Print Lab</span>
+            <span className="text-xl font-display font-bold gradient-text">3DMATBAA</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8">
@@ -1233,9 +1240,13 @@ function Footer() {
       <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-3">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-gradient-to-br from-neon-blue to-neon-purple rounded-lg flex items-center justify-center">
-            <Printer className="w-4 h-4 text-white" />
+            <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <rect x="3" y="14" width="18" height="7" rx="1" />
+              <path d="M7 14V4a1 1 0 011-1h8a1 1 0 011 1v10" />
+              <circle cx="12" cy="11" r="1.5" fill="currentColor" />
+            </svg>
           </div>
-          <span className="font-display font-bold gradient-text">3D Print Lab</span>
+          <span className="font-display font-bold gradient-text">3DMATBAA</span>
         </div>
         <p className="text-gray-500 text-sm">
           © 2026 Tüm hakları saklıdır.
