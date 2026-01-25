@@ -137,3 +137,130 @@
     text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
   }
 }
+
+/* 3D Yazıcı Logo Animasyonları */
+
+/* Baskı kafası X ekseni hareketi */
+@keyframes printHeadX {
+  0%, 100% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+}
+
+/* Z ekseni hareketi - baskı kafası yukarı çıkıyor */
+@keyframes zAxisMove {
+  0% { transform: translateY(4px); }
+  100% { transform: translateY(0); }
+}
+
+/* Fan dönüşü */
+@keyframes fanSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Nozzle ısınma */
+@keyframes nozzleHeat {
+  0%, 100% { 
+    fill: #ef4444;
+    filter: drop-shadow(0 0 2px #ef4444);
+  }
+  50% { 
+    fill: #f97316;
+    filter: drop-shadow(0 0 4px #f97316);
+  }
+}
+
+/* Filament akışı */
+@keyframes filamentFlow {
+  0% { 
+    stroke-dashoffset: 4;
+    opacity: 1;
+  }
+  100% { 
+    stroke-dashoffset: 0;
+    opacity: 0.5;
+  }
+}
+
+/* Katman oluşumu */
+@keyframes layerBuild {
+  0%, 40% { transform: scaleX(0); opacity: 0; }
+  100% { transform: scaleX(1); opacity: 1; }
+}
+
+/* LCD yanıp sönme */
+@keyframes lcdBlink {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.animate-print-head-x {
+  animation: printHeadX 1.2s ease-in-out infinite;
+}
+
+.animate-z-axis {
+  animation: zAxisMove 4s ease-in-out infinite;
+}
+
+.animate-fan-spin {
+  animation: fanSpin 0.3s linear infinite;
+  transform-origin: center;
+}
+
+.animate-nozzle-heat {
+  animation: nozzleHeat 0.8s ease-in-out infinite;
+}
+
+.animate-filament-flow {
+  stroke-dasharray: 2;
+  animation: filamentFlow 0.5s linear infinite;
+}
+
+/* Vazo clip - alttan yukarı açılıyor */
+@keyframes vaseClipReveal {
+  0% { 
+    transform: translateY(28px);
+  }
+  100% { 
+    transform: translateY(0);
+  }
+}
+
+/* Baskı kafası yukarı çıkıyor */
+@keyframes printheadUp {
+  0% { 
+    transform: translateY(0);
+  }
+  100% { 
+    transform: translateY(-26px);
+  }
+}
+
+/* Filament çizgisi */
+@keyframes filamentLine {
+  0%, 100% { 
+    opacity: 1;
+    stroke-width: 1;
+  }
+  50% { 
+    opacity: 0.5;
+    stroke-width: 1.5;
+  }
+}
+
+.animate-vase-clip {
+  animation: vaseClipReveal 4s ease-out infinite;
+}
+
+.animate-printhead-up {
+  animation: printheadUp 4s ease-out infinite;
+}
+
+.animate-filament-line {
+  animation: filamentLine 0.2s ease-in-out infinite;
+}
+
+.animate-lcd-blink {
+  animation: lcdBlink 2s ease-in-out infinite;
+}
+

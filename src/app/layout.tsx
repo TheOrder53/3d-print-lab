@@ -16,7 +16,7 @@ const orbitron = Orbitron({
 })
 
 export const metadata: Metadata = {
-  title: '3DMATBAA | 3D Baskı Hizmetleri',
+  title: '3D Matbaa | 3D Baskı Hizmetleri',
   description: 'Profesyonel 3D baskı hizmetleri. Hayallerinizi katmana dönüştürüyoruz.',
 }
 

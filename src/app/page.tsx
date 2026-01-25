@@ -413,17 +413,86 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-neon-blue to-neon-purple rounded-xl flex items-center justify-center">
-              <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <rect x="3" y="14" width="18" height="7" rx="1" />
-                <rect x="6" y="17" width="3" height="2" fill="currentColor" />
-                <path d="M7 14V4a1 1 0 011-1h8a1 1 0 011 1v10" />
-                <path d="M10 8h4" />
-                <path d="M12 6v4" />
-                <circle cx="12" cy="11" r="1.5" fill="currentColor" />
+            <div className="w-12 h-12 bg-gradient-to-b from-dark-800 to-dark-900 rounded-xl flex items-center justify-center overflow-hidden border border-dark-600/50 shadow-xl">
+              <svg className="w-10 h-10" viewBox="0 0 50 50" fill="none">
+                {/* Yazıcı çerçevesi */}
+                <rect x="5" y="5" width="2" height="40" fill="#475569" rx="0.5" />
+                <rect x="43" y="5" width="2" height="40" fill="#475569" rx="0.5" />
+                <rect x="5" y="5" width="40" height="2" fill="#475569" rx="0.5" />
+                
+                {/* Baskı tablası */}
+                <rect x="8" y="43" width="34" height="3" fill="#334155" rx="1" />
+                
+                {/* VAZO - alttan üste basılıyor */}
+                <g className="animate-vase-print">
+                  {/* Vazo şekli - clip ile alttan yukarı reveal */}
+                  <defs>
+                    <clipPath id="vaseReveal">
+                      <rect x="12" y="15" width="26" height="28" className="animate-vase-clip" />
+                    </clipPath>
+                  </defs>
+                  
+                  <g clipPath="url(#vaseReveal)">
+                    {/* Vazo gövdesi */}
+                    <path d="M18 42 
+                             L16 38 
+                             Q14 32 16 26 
+                             Q18 22 20 20 
+                             L20 18 
+                             Q18 16 18 14 
+                             Q20 12 25 12 
+                             Q30 12 32 14 
+                             Q32 16 30 18 
+                             L30 20 
+                             Q32 22 34 26 
+                             Q36 32 34 38 
+                             L32 42 Z" 
+                          fill="url(#vaseGradient)" 
+                          stroke="#0891b2" 
+                          strokeWidth="0.5" />
+                    
+                    {/* Vazo katman çizgileri */}
+                    <line x1="16" y1="40" x2="34" y2="40" stroke="#0e7490" strokeWidth="0.3" opacity="0.5" />
+                    <line x1="15" y1="36" x2="35" y2="36" stroke="#0e7490" strokeWidth="0.3" opacity="0.5" />
+                    <line x1="15" y1="32" x2="35" y2="32" stroke="#0e7490" strokeWidth="0.3" opacity="0.5" />
+                    <line x1="16" y1="28" x2="34" y2="28" stroke="#0e7490" strokeWidth="0.3" opacity="0.5" />
+                    <line x1="18" y1="24" x2="32" y2="24" stroke="#0e7490" strokeWidth="0.3" opacity="0.5" />
+                    <line x1="20" y1="20" x2="30" y2="20" stroke="#0e7490" strokeWidth="0.3" opacity="0.5" />
+                    <line x1="20" y1="16" x2="30" y2="16" stroke="#0e7490" strokeWidth="0.3" opacity="0.5" />
+                  </g>
+                </g>
+                
+                {/* X ekseni ray - vazo ile birlikte yukarı çıkıyor */}
+                <g className="animate-printhead-up">
+                  <rect x="7" y="38" width="36" height="2" fill="#64748b" rx="0.5" />
+                  
+                  {/* Baskı kafası */}
+                  <g className="animate-print-head-x">
+                    {/* Kafa gövdesi */}
+                    <rect x="21" y="34" width="8" height="5" rx="1" fill="#334155" />
+                    
+                    {/* Nozzle */}
+                    <path d="M24 39 L26 39 L25.3 41 L24.7 41 Z" fill="#f59e0b" />
+                    
+                    {/* Nozzle ucu - ısınıyor */}
+                    <circle cx="25" cy="41.5" r="0.7" fill="#ef4444" className="animate-nozzle-heat" />
+                    
+                    {/* Filament akışı */}
+                    <line x1="25" y1="42" x2="25" y2="43" stroke="#22d3ee" strokeWidth="1" className="animate-filament-line" />
+                  </g>
+                </g>
+                
+                {/* Gradient tanımları */}
+                <defs>
+                  <linearGradient id="vaseGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#0891b2" />
+                    <stop offset="50%" stopColor="#22d3ee" />
+                    <stop offset="100%" stopColor="#67e8f9" />
+                  </linearGradient>
+                </defs>
               </svg>
             </div>
-            <span className="text-xl font-display font-bold gradient-text">3DMATBAA</span>
+            <span className="text-xl font-display font-bold gradient-text">3D Matbaa</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8">
@@ -1241,12 +1310,13 @@ function Footer() {
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-gradient-to-br from-neon-blue to-neon-purple rounded-lg flex items-center justify-center">
             <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="3" y="14" width="18" height="7" rx="1" />
-              <path d="M7 14V4a1 1 0 011-1h8a1 1 0 011 1v10" />
-              <circle cx="12" cy="11" r="1.5" fill="currentColor" />
+              <path d="M4 4h16v16H4z" strokeLinejoin="round" opacity="0.3" />
+              <rect x="9" y="5" width="6" height="2" fill="currentColor" rx="0.5" />
+              <rect x="7" y="17" width="10" height="2" fill="currentColor" />
+              <rect x="7" y="14" width="10" height="2" fill="currentColor" opacity="0.6" />
             </svg>
           </div>
-          <span className="font-display font-bold gradient-text">3DMATBAA</span>
+          <span className="font-display font-bold gradient-text">3D Matbaa</span>
         </div>
         <p className="text-gray-500 text-sm">
           © 2026 Tüm hakları saklıdır.
